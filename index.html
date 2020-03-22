@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rose</title>
+    <style>
+        html,body{
+            width: 100%;                           
+            margin: 0 ;
+            padding: 0;           
+            background: hsla(0, 0%, 0%, 1);
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+        canvas{
+            width: auto;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        var c=document.getElementById("canvas"),
+            $=c.getContext("2d"),
+            w=c.width=window.innerWidth,
+            h=c.height=window.innerHeight,
+            t=0,num=450,
+            u=0,_u,s,a,b,x,y,_x,_y,
+            _t=1/100;
+        var anim=function(){
+            $.globlCompasiteOperation="source-over";
+            $.fillStyle="hsla(0, 0%, 0%, 0.75)";
+            $.fillRect(0,0,w,h);
+            $.globlCompasiteOperation="lighter";
+            for(var i=0;i<2;i++){
+                x=0;
+                _u=(u/4)+i;
+                $.beginPath();
+                for(var j=0;j<num;j++){
+                    x-=0.72*Math.sin(4);
+                    y=x*Math.sin(i+3.0*t+x/20)/2;
+                    _x=x*Math.cos(b)-y*Math.sin(b);
+                    _y=x*Math.sin(b)+y*Math.cos(b);
+                    b=(j*3)*Math.PI/6.8;
+                    $.lineWidth=0.18;
+                    $.arc(w/2-_x,h/2-_y,0.5,0,2*Math.PI);
+                }
+                var g=$.createLinearGradient(w/2+_x,h/2+_y,0,w/2+_x,h/2+_y);
+                g.addColorStop(0.0,"hsla("+u+", 85%, 50%, 1)");
+                g.addColorStop(0.5,"hsla("+_u+", 85%, 40%, 1)");
+                g.addColorStop(1,"hsla(1, 0%, 5%, 1)");
+                $.strokeStyle=g;
+                $.stroke();
+            }
+            t+=_t;
+            u-=0.2;
+            window.requestAnimationFrame(anim);
+        };
+        anim();
+    </script>
+</body>
+</html>
